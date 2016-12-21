@@ -1,1 +1,19 @@
-theme: jekyll-theme-slate
+# Dependencies
+markdown:         kramdown
+gems:             [jekyll-paginate]
+
+# Permalinks
+permalink:        pretty
+highlight:        pygments
+# Setup
+title:            George Derpanopoulos
+description:      'PhD Candidate, Political Science, UCLA'
+url:              http://georgederpa.github.io
+baseurl:          /
+
+author:
+  name:           'George Derpanopoulos'
+  url:            https://twitter.com/GDerpa
+
+paginate:         1
+paginate_path:    "/thoughts/page:num"
