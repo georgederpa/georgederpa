@@ -5,7 +5,7 @@ title: Research
 
 ## Published/Forthcoming Articles
 * <a href="/research/RAP_publication.pdf">Are Coups Good for Democracy?</a> with <a href="http://ericafrantz.com/3001.html">Erica Frantz</a>, <a href="http://www.polisci.ucla.edu/people/barbara-geddes">Barbara Geddes</a>, and <a href="http://sites.psu.edu/wright/">Joe Wright</a>. 2016. *Research & Politics*
-  * <a href="https://www.washingtonpost.com/news/monkey-cage/wp/2016/02/22/are-coups-good-for-democracy/?utm_term=.96e04d348083">Monkey Cage piece</a>
+  * <a href="https://www.washingtonpost.com/news/monkey-cage/wp/2016/02/22/are-coups-good-for-democracy/?utm_term=.96e04d348083">Monkey Cage</a> coverage
 
 ## Working Papers
 * Are Coups Good for Democracy? A Response to Miller (2016). with <a href="http://ericafrantz.com/3001.html">Erica Frantz</a>, <a href="http://www.polisci.ucla.edu/people/barbara-geddes">Barbara Geddes</a>, and <a href="http://sites.psu.edu/wright/">Joe Wright</a>. *Under Review*
