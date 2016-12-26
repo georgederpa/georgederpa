@@ -1,0 +1,165 @@
+---
+title: "Bayesian Model Checking & Comparison"
+author: "George Derpanopoulos"
+date: "June 1, 2016"
+output: html_document
+---
+
+# Introduction
+
+Specifying our model and fitting it is often such a painstaking process that -- after reaching convergence -- we are tempted to call it a day. We shouldn't! Before making predictions or (causal) inferences, we should check that our model's assumptions do not clash with the data --. this is known as **model checking**. In addition, since there are usually multiple models that are both plausible and fit the data well, we might want to verify that our preferred model performs favorably relative to other alternatives -- this is known as **model comparison**. Finally, for conducting (causal) inference, we might want to assess how our conclusions regarding some of the model's parameters change substantively when using different specifications -- this is known as **sensitivity analysis**. In this tutorial, we will focus on the first task.
+
+*Note*: Recall that "all models are wrong, but some are useful" (Box 1976: 792). As with frequentist approaches, Bayesian model checking and comparison can't tell us which model is *'true'*, but can tell us *how well each model fits the data*. This information can then be used to choose a 'best' model among the ones fitted, and use it to conduct prediction or inference. 
+
+***
+
+# Model Checking
+
+## Approaches 
+
+Gelman et al. (*Bayesian Data Analysis*) offer 3 principles/methods for Bayesian model checking:  
+
+1. Compare posterior distribution of parameters to substantive knowledge or other data    
+2. Compare posterior predictive distribution of future observations to substantive knowledge    
+3. Compare posterior predictive distribution of future observations to data    
+
+The third approach is the most popular, as the former two approaches use information that was *not* included in the model. Moreover, the field is moving increasingly towards data-driven model checking that minimize reseacher discretion. The idea behind **posterior predictive checking**, as it is called, is the following: if the model fits, then replicated data generated under the model should look similar to observed data. In other words, the observed data should look plausible under the posterior predictive distribution. (Note that in earlier stages the Bayesian literature looked down on re-using data that you've already used to update your priors.)
+
+## Posterior Predictive Distribution
+
+The posterior predictive distribution is the cornerstone of most Bayesian model checking methods. Let's review it briefly.
+
+Define $y^{rep}$ as the *replicated* data that could have been observed (or would be observed)  if the experiment that produced the observed data ($y$) were replicated with the same model ($M$) and the same parameters ($\theta$). The predicted distribution of $y^{rep}$, after having seen $y$ is: 
+$$ 
+\begin{align}
+p(y^{rep}|y) &= \int p(y^{rep},\theta|y) d\theta  \\
+             &=  \int p(y^{rep}|\theta, y) p(\theta|y) d\theta  \\
+\end{align}
+$$  
+Assuming $y \perp y^{rep}|\theta$:
+$$ 
+\begin{align}
+p(y^{rep}|y) &= \int p(y^{rep}|\theta) p(\theta|y) d\theta
+\end{align}
+$$
+
+This implies that to simulate the posterior predictive distribution we have to: 
+
+1. Sample $m$ values of $\theta$ from our posterior $p(\theta|y)$  
+2. For each draw, sample $y^{rep}$ from our likelihood $p(y^{rep}|\theta)$
+
+The latter $m$ draws represent draws from the posterior predictive distribution $p(y^{rep}|y)$. (A similar logic underlies the Bayesian approach to missing-data imputation.)
+
+## Posterior Predictive p-values 
+
+**Background**: First, recall a key difference between frequentists and Bayesian statistics (Gelman):        
+
+> "In classical statistical inference, we can’t make direct probability statements about parameters. A p-value is not the probability that the null hypothesis is true, but rather the probability of observing data as or more extreme than we obtained given that the null hypothesis is true. In Bayesian inference we can directly calculate the probability of parameter values by calculating the area of the posterior distribution to the right of that value, which is simply equal to the proportion of values in the posterior sample of the parameter which are greater than that value."
+
+**Method**: This hints that we can use the posterior predictive distribution to check our model's assumptions. One popular approach is to compare the data generated from the posterior predictive distribution to the observed data using a test statistic; this will produce a **posterior predictive p-value (ppp-value)**. For a given model assumption, this can be done as follows:  
+
+1. Devise a test statistic with the power to pick-up violations of the model's assumption: $T$   
+2. Calculate $T$ for $y$: $T(y)$  
+3. Calculate $T$ for each of the $m$ draws of $y^{rep}$ from $p(y^{rep}|y)$: $T(y^{rep}|y)$  
+4. Estimate the ppp-value: fraction of times that $T(y^{rep}|y)>T(y)$    
+
+**Intuition & Interpretation**: We estimate the ppp-value by calculating the fraction of predicted values that are *more extreme* for the test statistic than the observed value for that statistic. The logic behind this appoach is this: if the data violates our model's assumptions, then the observed test statistic should be different than most of the replicated test statistics from our model. This implies a ppp-value close to $0$ or $1$. Ideally, we seek a large ppp-value (greater than, say, $0.5$); this indicates that the model fits the data.  
+
+**Test Quantities vs. Test Statistics**: Formally, the test statistic above, $T(y^{rep}|y)$, depends on both data and parameters, since $y^{rep}$ are drawn from the likelihood $p(y|\theta)$ using draws posterior $p(\theta|y)$. To distinguish such statistics, generally denoted as $T(y,\theta)$, from classical test statistics, denoted as $T(y)$, we call them *test quantities* or *discrepancy measures*.  
+
+**Classical vs. Bayesian p-values**: For completeness, note the following difference. The classical p-value for a test statistic $T(y)$ is:
+$$p_C = \Pr(T(y^{rep}) \geq T(y) | \theta)$$
+where $\theta$ is taken as fixed, and hence $p_C$ is a function of $\theta$. Thus, a mere point estimate of $\theta$ can suffice to calculate $p_C$. On the contrary, the Bayesian equivalent (posterior predictive p-value) for $T(y,\theta)$ is:
+$$p_B = \Pr(T(y^{rep},\theta) \geq T(y,\theta) | \theta)$$
+where draws from the whole posterior distribution of $\theta$ can be taken, and hence $p_B$ is a function of both $\theta$ and $y$. Therefore, instead of a point estimate, draws over the posterior of $\theta$ are used to calculate $p_B$. 
+
+Relatedly, in calculating $p_B$, the Bayesian approach does not fix the unknown parameter vector at some value $\hat{\theta}^{\text{ML}}$; it implicitly averages over it. In this manner, Bayesian model checks do not rely on pivotal quantities (e.g. $z$-score), or asymptotic approximations.
+
+**Choosing Test Quantities**: Our model might fit the data poorly due to more than one incorrect model assumption. Thus, we might need to calculate ppp-values for more than one test quantity / discrepancy measure. There is no canned routine to choosing test quantities, and much depends on the data, as well as the researcher's goals. Popular choices include the mean, the standard deviation, and minimum/maximum values. However, a sensible practice is to avoid test quantities that measure parameters / features of the data included in our model. For example, running a posterior predictive check of the sample variance of a linear regression model is not informative, as $\sigma^2$ is one of the model's parameters. 
+
+**Issues & Limitations**: We have already mentioned how you should not base your test quantities on parameters/features of the data that are explicit modeled (e.g. mean of $y$). Even if we choose an appropriate test quantity, though, it might be underpowered; that is, it might fail to detect violations of the model's assumptions in the observed data. To complicate matters, when our model passes a posterior predictive check, we can't know whether this is because of the low power of our test quantity, or because we are testing the wrong assumption.
+
+Finally, it is worth noting that a lot depends on context. Gelman et al note that even extreme ppp-values can be ignored if the poor fit of the model is substantively small relative to variation within the model. This stems from the fundamental fact that "$p$-values measure 'statistical significance', not 'practical significance'". The latter depends on how much the data differ from the distribution implied by the null *on a scale of substantive interest*, and with respect to our research goal. Again, following Gelman et al:
+
+> The relevant goal is not to answer the question, ‘Do the data come from the assumed model?’ (to which the answer is almost always no), but to quantify the discrepancies between data and model, and assess whether they could have arisen by chance, under the model’s own assumptions. 
+
+## Example: Baseball Hits
+
+We can use posterior predictive checks to assess the fit of a simple hierarchical model. Let's return to the baseball data of Efron and Morris (1975), found in Jackman. Recall that this data records the batting statistics for 18 major league players in the 1970 season. Let's load the data and remember what it looks like:
+```{r, message=F}
+library(pscl)
+data("EfronMorris")
+head(EfronMorris)  
+```
+
+The variable that the original authors and Jackman models is `r`, the hits recorded by each player in their first $45$ bats of the season. Naturally, we can be think of `r` as the number of successes in a Binomial distribution with $n=45$ trials. 
+
+Let's use the latter to build a model in `JAGS`, with $p$, the probability of success as the unknown parameter. To make the model more interesting/useful, let's allow for this parameter to vary by player. Following Jackman (Exercise 7.1) we can use a Beta prior for these success probabilities, with exponential hyperpriors ($\lambda=2$) for its parameters ($\alpha$, $\beta$):
+```{r, message=F}
+library(rjags)
+baseballBinom <- "
+model {
+  for(i in 1:18) {
+     r[i] ~ dbinom(theta[i], 45)
+     theta[i] ~ dbeta(alpha,beta) 
+  }
+  alpha ~ dexp(2)
+  beta ~ dexp(2)
+}
+"
+jagsdat <- list(r=EfronMorris$r)
+jagsmodel <- jags.model(file=textConnection(baseballBinom),data=jagsdat)
+res <- coda.samples(model=jagsmodel,
+                    variable.names=c("theta"),
+                    n.iter=10000, thin=4)
+effectiveSize(res)
+```
+
+Converence seems reasonably good, so we can move to posterior predictive checks. First, we sample $10,000$ draws from our posterior, then use those to sample replicated data, and arrive at an approximation of our posterior predictive distribution:
+```{r}
+# Sample m draws of theta from estimated posterior p(theta|y)
+set.seed(13)
+m <- 10000
+chains <- res[[1]][,1:18]
+postDraws <- chains[sample(nrow(chains),size=m,replace=TRUE),]
+
+# Sample m draws of y.rep (n obs each) from likelihood p(y|theta), using thetas sampled above. Approximates posterior predictive distribution p(y.rep|y)
+n <- nrow(EfronMorris)
+y.rep <- matrix(NA, nrow=n, ncol=m)
+for (i in 1:m){
+  y.rep[,i] <- rbinom(n, size=45, prob=postDraws[i,])
+}
+```
+
+At this stage, we could use a number of test quantities to assess model fit. Two straightforward cases are the minimum and the maximum. That is, we can check how likely it is to see the minimum and maximum bats of our observed data in our replicated data:
+```{r}
+# Check whether data's max clashes w. posterior predictive's max
+T1.y <- max(EfronMorris$r)
+print(T1.y)
+T1.yrep <- apply(y.rep,2,max)
+hist(T1.yrep)
+abline(v=T1.y,col="red",lwd=2)
+pppval.max <- sum(T1.yrep>=T1.y)/m
+print(pppval.max)
+
+# Repeat for min
+T2.y <- min(EfronMorris$r)
+print(T2.y)
+T2.yrep <- apply(y.rep,2,min)
+hist(T2.yrep)
+abline(v=T2.y,col="blue",lwd=2)
+pppval.min <- sum(T2.yrep<=T2.y)/m
+print(pppval.min)
+```
+
+We see that this is not very likely at all! Interestingly, a Normal approximation to the binomial fits much better. **Bonus**: check this using Jeff's `baseball.bug` model.   
+
+**Relation to Cross-Validation**: Those familiar with regularized models know of cross-validation (CV): partitioning the data into $k$ folds, fitting the model on each of the $k-1$ folds, using the $k$-th fold to calculate some type of prediction error, and arriving at a measure of CV prediction error. The latter is typically used to choose the optimal level of model complexity, and maximize out-of-sample predictive accuracy. Though the process of tuning model complexity is not as streamlined in the standard Bayesian setup, posterior predictive checking is similar to CV in that it can use observed data to improve model fit. More generally, it is often possible to approach supervised learning algorithms through a Bayesian framework; for example, the popular LASSO model implicitly imposes independent Laplace priors on the regression parameters.
+
+
+
+
+
+
+
+

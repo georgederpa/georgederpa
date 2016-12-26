@@ -1,0 +1,381 @@
+---
+title: "Count Models in JAGS"
+author: "George Derpanopoulos"
+date: "May 11, 2016"
+output: html_document
+---
+
+Poisson Regression
+==================
+
+Let's start with the canonical count model, the Poisson. Recall that -- as a GLM -- the Poisson uses a log link between $E[y_i|X_i]=\lambda_i$ (the conditional mean), and $\mu_i=\sum_j \beta_j X_{ij}$ (the linear predictor), i.e. $\log E[y_i|X_i] = \sum_j \beta_j X_{ij}$: 
+
+```{bugs}
+model{
+    ## Likelihood
+    for(i in 1:N){
+      y[i] ~ dpois(lambda[i])
+      log(lambda[i]) <- mu[i]
+      mu[i] <- inprod(beta[],X[i,])
+      }     
+    ## Priors 
+    beta ~ dmnorm(mu.beta,tau.beta)  # multivariate Normal prior
+}
+```
+
+Note that we can't actually compile this model from within the `.Rmd` file, so we have to write it in a separate file (`poiss.bug`), and save it in our working directory.
+
+As usual, it is wise to begin with simulated data. All of the housekeeping code required for the `.R` and `.bugs` files, as well as our basic framework can be adopted from our previous examples, such as the Wallerstein-Stephens regression.
+
+Let's construct some toy data, with $1,000$ observations, $1$ predictor, and an intercept and slope equal to $1$:
+
+```{r, message=FALSE}
+N <- 1000
+beta0 <- 1  # intercept
+beta1 <- 1  # slope
+x <- rnorm(n=N)  # standard Normal predictor
+mu <- beta0*1 + beta1*x  # linear predictor function
+lambda <- exp(mu)  # CEF
+y <- rpois(n=N, lambda=lambda)  # Poisson DV
+dat <- data.frame(x,y)  
+```
+
+Now, we specify the parameters we will feed into `JAGS` (data and priors). As usual, we we'll use a vague multivariate Normal prior centered around $0$ for the regression parameters.
+
+```{r}
+forJags <- list(X=cbind(1,dat$x),  # predictors
+                y=dat$y,  # DV
+                N=N,  # sample size
+                mu.beta=rep(0,2),  # priors centered on 0
+                tau.beta=diag(.0001,2))  # diffuse priors
+```
+
+Let's compile our model, and make sure it works:
+
+```{r, message=F}
+library(rjags)
+jagsmodel <- jags.model(file="~/Dropbox/209_S16/Code/pois.bug",  # compile model
+                        data=forJags)
+```
+
+Time to update our model, and generate posteriors for our two regression parameters:
+
+```{r}
+out <- coda.samples(jagsmodel,
+                    variable.names="beta",  # parameter vector (length 2)
+                    n.iter=1e5)  # increase chain length from default
+```
+
+Now we can check that `JAGS` gets the mean of the posteriors of our 2 parameters ($\beta_0, \beta_1$) roughly right (close to $1$), and compare them to the ML estimates we get from `glm`: 
+
+```{r}
+summary(out)  
+summary(glm(dat$y~dat$x, family=poisson))  
+```
+
+The MCMC and MLE estimates are very close, and both basically on point.
+
+Let's see how our posteriors look: 
+
+```{r}
+plot(out)  
+```
+
+We see that convergence is not perfect, even after 100,000 iterations: the posterior of `beta[2]` is not exactly symmetric. 
+
+We should also assess the posteriors' stationarity, by looking at the Heidelberg-Welch convergence diagnostic:
+
+```{r}
+heidel.diag(out)  
+```
+
+Seems ok. Let's also check that our chain's length is satisfactory.
+
+```{r}
+raftery.diag(out)  
+```
+
+But what about the effective sample size?
+
+```{r}
+effectiveSize(out)  
+```
+
+This corresponds to only `r round(effectiveSize(out)/N,2)`$\%$ of our draws, signaling strong dependency in our chain. 
+
+Concluding, even with a correctly specified model, uninformative priors, $2$ parameters, and a dataset that is not excessive ($n=1,000$), this is not exactly a "walk through the park" for `JAGS`. Various changes to the sampling process might improve the properties of our posteriors, such as use a longer burn-in and/or a longer chain, thin more heavily, intiate the sampler at the ML estimates, etc. 
+
+Negative Binomial Regression
+============================
+
+Moving on to the NB distribution, we need more reparameterization to get into a form appropriate for our regression. Following the notation in the `JAGS` manual, and in Jackman's code in the book, we parameterize the NB density for observation $i$ with $p_i$ and $r$. The latter is the (over)dispersion parameter ($\geq 0$), in the Poisson distribution equals $1$ (no overdispersion). The former is referred to as the success parameter, and for observation $i$ is defined as $p_i=\frac{r}{r+\lambda_i}$, where $\log \lambda_i=\sum_j \beta_j X_{ij}$, as in the Poisson. 
+
+To fully specify our `JAGS` model, we need a prior for $r$, in addition to priors for our $\beta$'s (we use the same as above). We use a uniform prior that puts an upper bound of $50$ for $r$. As Jackman notes (p. 280), "this is not at all restrictive: recall that the negative binomial tends to the Poisson as $r \rightarrow \infty$ [...] so the negative binomial is practically indistinguishable from the Poisson once the overdispersion parameter gets anywhere close to being that large".
+
+```{bugs}
+model{
+    ## Likelihood
+    for(i in 1:N){
+      y[i] ~ dnegbin(p[i],r)
+      p[i] <- r/(r+lambda[i]) 
+      log(lambda[i]) <- mu[i]
+      mu[i] <- inprod(beta[],X[i,])
+    } 
+    ## Priors
+    beta ~ dmnorm(mu.beta,tau.beta)
+    r ~ dunif(0,50)
+}
+```
+
+Again, let's use toy data to verify that our model works. We use the same data and setup as in the Poisson, and set $r=2$. Note that to simulate data from a negative binomial (using `rnegbin`) we need the `pscl` package. Also, note that `rnegbin` in `R` is parametarized by `mu` and `theta`, which are $\lambda$ and $r$ in our setup, whereas `dnegbin` in `JAGS` is parametarized by `p` and `r`.
+
+```{r, message=FALSE}
+library(pscl)
+N <- 1000
+beta0 <- 1
+beta1 <- 1
+x <- rnorm(n=N)
+mu <- beta0*1 + beta1*x
+lambda <- exp(mu)
+r <- 2
+y <- rnegbin(n=N, mu=lambda, theta=r)
+dat <- data.frame(x,y)
+```
+
+I feed the same information to `JAGS` as in the Poisson:
+
+```{r}
+forJags <- list(X=cbind(1,dat$x),
+                y=dat$y,
+                N=N,
+                mu.beta=rep(0,2),
+                tau.beta=diag(.0001,2))
+```
+
+To achieve better convergence, let's lengthen the initial adaptation:
+
+```{r}
+jagsmodel <- jags.model(file="~/Dropbox/209_S16/Code/negbin.bug",
+                        data=forJags,
+                        n.adapt=5e3)
+```
+
+For the same purpose, let's keep every fifth draw (`thin=5`):
+
+```{r}
+out <- coda.samples(jagsmodel,
+                    variable.names=c("beta","r"),
+                    n.iter=1e5,
+                    thin=5)
+```
+
+How do our posterior estimates look compared to the ML ones?
+
+```{r}
+summary(out)
+summary(glm.nb(y~x,data=dat))
+```
+
+Again, both ML and MCMC estimates of the mean of our parameters ($\beta_0, \beta_1, r$) are relatively close to each other, though further from the true value this time.
+
+How do the posteriors look?
+
+```{r}
+plot(out) 
+```
+
+The traceplots do not show any trending, but the posteriors for the intercept and slope have hints of bimodality.
+
+Let's also check some diagnostics.
+
+```{r}
+heidel.diag(out)  # assess stationarity
+raftery.diag(out)  # assess required run length
+effectiveSize(out)  # assess independence of draws
+```
+
+The first two tests do not flag anything worrying. As for the independence of our draws, though it does not match the size of our chain (draws fully independent), effective sample size is more than $50\%$ for intercept and slope, and over $95\%$ for the dispersion parameter.  (Recall that we drew $100,000$ values, but only kept every fifth).
+
+Richer NB models can be hard to fit in `JAGS`. As Jackman  says after fitting a slighltly more complicated model,  "the resulting Markov chain produces woefully slow mixing and several hundred thousand iterations are required to generate a thorough exploration of the joint posterior density" (p. 279).
+
+Interestingly, to improve convergence we can use *independent* Normal priors for the intercept and slope. However, this comes at the cost of slower sampling (not shown).  
+
+Zero-Inflated Models
+====================
+
+Zero-inflated models are not easy to identify. When the two components -- binary and count -- are poorly separated, ML estimates can be unstable, particularly in the presence of outliers. This is the case with Wilson \& Piazza's data, since around 2/3 of the non-zero observations lie below 10, while the remaining counts are significantly larger (see histogram). Some solutions have been proposed to this, most of which rely on complicated frequentist adjustments to the standard ML algorithm. Yet, given the recent advancements in computing power, MCMC methods present a viable alternative for obtaining stable estimates.
+
+Another obstacle to identification is the inclusion of the same predictors in both components of the mixture model. For example, Wilson \& Piazza -- like most terrorism scholars -- make this modeling choice because their theory does not differentiate between the forces that determine the likelihood of observing any attacks at all (binary component), and the forces that determine the likelihood of observing -- say -- $c$ attacks (count component). Thus, there are no theoretical grounds for including different predictors in each component of the model. Despite its theoretical appeal, though, this choice renders identification laborious, since the estimates of the slope parameters in each component ``fight" for the same variation. Moreover, it is unclear whether MCMC methods can aid identification on this front.
+
+In any case, let's try to fit a zero-inflated model. Here's the general formula for a zero-inflated density, which is a mixture of the binary component's density ($p_0(y_i)$), and the count component's density ($p_1(y_i)$). Now we can form the zero-inflated density, which is a mixture:
+
+$$ p(y_i) = p_0(0)*I_{\{0\}}(y_i) + (1-p_0(0))*p_1(y_i) $$
+
+If we could specify our own likelihood function in `JAGS`, we could code the above, after choosing densities for each component. Since we cannot, though, we have to be creative.
+
+Zero-Inflated Poisson Regression
+================================
+
+Let's try to fit a zero-inflated Poisson model (ZIP) in `JAGS`.\footnote{This can also be done through the `MCMCglmm package`, a relatively canned option that can fit zero-inflated mixed effects count models via MCMC methods.} I begin by describing the zero-inflation component, which leads to a "hack" in the count component. First we need a Bernoulli variable, usually with a logit link, to model whether the observation is a structural zero or not. When a structural zero is observed, the Bernoulli variable zeroes-out/absorbs the mean of the count and, hence, "crash" the mean of the observation. Yet, because `JAGS` cannot compile the model if it observes a non-zero observation from a mean-zero Poisson distribution, when the Bernoulli predicts zero-inflation we must set the Poisson's mean to an  infinitesimally small number. \\
+
+```{bugs}
+model{
+    ## Likelihood
+    for(i in 1:N){
+      y[i] ~ dpois(lambda.hacked[i])
+      lambda.hacked[i] <- lambda[i]*(1-zero[i]) + 1e-10*zero[i]
+      lambda[i] <- exp(mu.count[i])
+      mu.count[i] <- inprod(beta[],X[i,])
+      
+      ## Zero-Inflation
+      zero[i] ~ dbern(pi[i])
+      pi[i] <- ilogit(mu.binary[i])
+      mu.binary[i] <- inprod(alpha[],X[i,])
+    } 
+    ## Priors
+    beta ~ dmnorm(mu.beta,tau.beta)
+    alpha ~ dmnorm(mu.alpha,tau.alpha)
+}
+```
+
+Now let's try our model on the same toy data as before, but after mixing in some zeros, from a known distribution. We can adapt the count component from our Poisson example. However, for the binary component we need some more information. First, the variables that enter its CEF. To simplify things, let's assume the same two variables that enter the CEF for our count component also enter the CEF for our binary component -- that is, the constant and our single predictor, drawn from a standard Normal. (This is a common modelling choice, and the one used by Wilson and Piazza.) Second, we need an intercept and slope. To make the effect of our variables more sensible, let's reverse their sign, and set them equal to $-.5$ (remember, the binary component predicts zeros). Finally, after we draw our $y$'s from a Poisson, we must account for zero-inflation. By multiplying the draws from the count by (1 minus the zero-inflation indicator), we obtain a new outcome variable that equals zero when the Bernoulli draw a zero and/or when the Poisson draws a zero. The rest of the code follows the notation of the `JAGS` model above.
+
+```{r}
+N <- 1000
+alpha0 <- -.5
+alpha1 <- -.5
+beta0 <- 1
+beta1 <- 1
+x <- rnorm(n=N)
+mu.binary <- alpha0*1 + alpha1*x
+pi <- exp(mu.binary)/(1+exp(mu.binary))
+zero <- rbinom(n=N, size=1, prob=pi)
+mu.count <- beta0*1 + beta1*x
+lambda <- exp(mu.count)
+y.count <- rpois(n=N, lambda=lambda)
+y <- y.count*(1-zero) 
+dat <- data.frame(x,y)  
+```
+
+Before proceeding, let's see how much zero-inflation we have, and how our outcome is distributed now:
+
+```{r}
+table(zero)
+head(table(y))
+```
+
+We see that around 1/3 (`r table(zero)[1]`) of our observations will be "structural" zeros. Note that we also get zeros from the Poisson component, hence we have `r table(y)[1]` zeros. This calls for a zero-inflated model! 
+
+We can now pass the same parameters as before to `JAGS`, while including priors for the binary component's parameters (`mu.alpha`, `tau.alpha`):
+
+```{r}
+forJags <- list(X=cbind(1,dat$x), 
+                y=dat$y,  
+                N=N,  
+                mu.alpha=rep(0,2),  
+                tau.alpha=diag(.0001,2),
+                mu.beta=rep(0,2),
+                tau.beta=diag(.0001,2))
+```
+
+The rest of the process is by now familiar:
+
+```{r}
+jagsmodel <- jags.model(file="~/Dropbox/209_S16/Code/zipoisson.bug",
+                        data=forJags)
+                        
+out <- coda.samples(jagsmodel,
+                    variable.names=c("alpha","beta"),
+                    n.iter=1e5)
+
+summary(out)
+summary(zeroinfl(y~x, data=dat, dist="poisson"))
+```
+
+Once again, MCMC and MLE estimates are similar, and close to the true values. Note that both models do worse -- in terms of bias and inefficiency -- at estimating the binary component's parameters.
+
+```{r, fig.height=6}
+plot(out)
+effectiveSize(out)
+```
+
+Clearly, the posteriors betray that the sampler has not done a great job, and there is large dependency in our draws.    
+
+
+Zero-Inflated Negative Binomial Regression
+==========================================
+
+We only need to change two lines of code to adapt the ZIP model to the ZINB. First, the obvious one: the density (we can copy this from the NB model). Second, the conditional mean of the distribution. This takes 
+
+```{bugs}
+model{
+    ## Likelihood
+    for(i in 1:N){
+      y[i] ~ dnegbin(p[i],r)
+      p[i] <- r/(r+(1-zero[i])*lambda.count[i]) - 1e-10*zero[i]
+      lambda.count[i] <- exp(mu.count[i])
+      mu.count[i] <- inprod(beta[],X[i,])
+      
+      ## Zero-Inflation
+      zero[i] ~ dbern(pi[i])
+      pi[i] <- ilogit(mu.binary[i])  
+      mu.binary[i] <- inprod(alpha[],X[i,])
+    } 
+  
+    ## Priors
+    alpha ~ dmnorm(mu.alpha,tau.alpha)
+    beta ~ dmnorm(mu.beta,tau.beta)
+    r ~ dunif(0,50)
+}
+```
+
+Let's use the same method as before to simulate data. We only have to change the distribution for the count component to a negative binomial. We can set $r=2$, as in our initial NB example:
+
+```{r}
+N <- 1000
+alpha0 <- -.5
+alpha1 <- -.5
+beta0 <- 1
+beta1 <- 1
+r <- 2
+x <- rnorm(n=N)
+mu.binary <- alpha0*1 + alpha1*x
+pi <- exp(mu.binary)/(1+exp(mu.binary))
+zero <- rbinom(n=N, size=1, prob=pi)
+mu.count <- beta0*1 + beta1*x
+lambda <- exp(mu.count)
+y.count <- rnegbin(n=N, mu=lambda, theta=r)
+y <- y.count*(1-zero) 
+dat <- data.frame(x,y)  
+```
+
+We can go ahead and compile our model, then update it:
+
+```{r}
+jagsmodel <- jags.model(file="~/Dropbox/209_S16/Code/zinegbin.bug",
+                        data=forJags)
+
+out <- coda.samples(jagsmodel,
+                    variable.names=c("alpha","beta","r"),
+                    n.iter=1e4)
+```
+
+Let's compare it to the MLE estimate:
+
+```{r}
+summary(out)
+summary(zeroinfl(y~x, data=dat, dist="negbin"))
+```
+
+We see that our model did a terrible job of describing the posterior of $r$, the overdispersion parameter. The MLE estimate is not spot on ($r=\exp(\log \theta))$), but it got much closer than `JAGS`. Let's check the plots:
+     
+```{r, fig.height=6}
+plot(out)
+```
+
+Indeed, our sample did not do too well with $r$. Why?
+                                  
+Resources
+========= 
+
+For a review of all of the above count models in `R`, see the vignette for the `pscl` package (you can download it by calling `vignette("countreg")`). For more on Poisson models in a Bayesian context, see Jackman pp.73--80 and 208-2012. For more on NB models in a Bayesian context, see Jackman pp.78--80, 222-225, and 278--280. 
