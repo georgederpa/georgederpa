@@ -1,4 +1,4 @@
-![portrait](/assets/Potrait_Formal_Square.jpg){: align="left" height="250px" width="250px" style="margin-right: 5px"}
+![portrait](/Potrait_Formal_Square.jpg){: align="left" height="250px" width="250px" style="margin-right: 5px"}
 
 **Hi! I'm George Derpanopoulos** 
 
