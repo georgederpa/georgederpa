@@ -4,7 +4,7 @@
 
 Abstract: A large literature argues that autocracies can achieve high levels of economic growth if dictators can commit to not predating on elites. Most research has focused on the role of two institutions -- legislatures and parties -- in constraining the dictator’s predation. Scholars argue that these institutions lower elites’ cost of monitoring the dictator, thereby making predation more observable and allowing elites to punish it. I complement this literature by documenting the role of elite networks in constraining the dictator. I argue that dense financial ties among elites diffuse information on the dictator's policies, hence enabling elites to better monitor predation—if the dictator preys on an elite's assets, those financially connected to the elite will observe the predation and/or experience its spillovers. In turn, elites affected -- directly or indirectly -- by the predation will punish the dictator with capital flight. This credible threat deters the dictator from economic predation and commits him to not obstruct elites in allocating their capital. Accordingly, I hypothesize that autocracies with dense1 networks of economic elites experience less expropriation and higher growth. To test these claims, I estimate networks of elites' co-ownership of offshore companies -- a strong type of financial tie -- using the largest leak of such information to date, the Panama Papers. I find preliminary statistical support for my hypotheses using a sample of all post-1990 dictatorships. 
 
-[!chadVSsing](/research/chadVSsing.png){: align="left" height="250px" width="250px" style="margin-right: 5px"}
+![chadVSsing](/research/chadVSsing.png){: align="left" height="250px" width="250px" style="margin-right: 5px"}
 
 <br>
   
