@@ -1,3 +1,4 @@
 name: George Derpanopoulos
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
+google_analytics: UA-89520956-1
