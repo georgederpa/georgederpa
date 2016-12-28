@@ -30,4 +30,4 @@ Abtract: A large literature argues that autocracies can achieve high levels of e
 * Are Coups Good for Democracy? A Response to Miller (2016). with [Erica Frantz](http://ericafrantz.com/3001.html), [Barbara Geddes](http://www.polisci.ucla.edu/people/barbara-geddes), and [Joseph Wright](http://sites.psu.edu/wright).
 * [Predicting Foreign Fighter Flows to Syria Using Machine Learning: An Introduction to Kernel Regularized Hurdle Negative Binomial](https://www.dropbox.com/s/1ny0cewhyv2o4vb/derpanopoulos_sonnet_ff.pdf?dl=0) with [Luke Sonnet](http://lukesonnet.github.io/)
   * [Replication material](https://github.com/lukesonnet/foreign_fighters)
-* Occam’s Lasso: Parsimonious Theory-Building Needs Machine Learning
+* Occam’s Lasso: Parsimonious Theory-Building Needs Machine Learning (in progress)
