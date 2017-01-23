@@ -30,5 +30,5 @@ Abtract: Why do some military officers participate in coups, while others stay i
 ## Working Papers
 * [Predicting Foreign Fighter Flows to Syria Using Machine Learning: An Introduction to Kernel Regularized Hurdle Negative Binomial](https://www.dropbox.com/s/1ny0cewhyv2o4vb/derpanopoulos_sonnet_ff.pdf?dl=0) with [Luke Sonnet](http://lukesonnet.github.io/)
   * [Replication material](https://github.com/lukesonnet/foreign_fighters)
-* [Modeling Inter-Rebel Group Conflict with Social Network Analysis: The Case of Lebanon's Civil War](/research/218_Project_Derpanopoulos.pdf)
+* [Modeling Inter-Rebel Group Conflict with Social Network Analysis: The Case of Lebanon's Civil War](/research/snaLebanon_jcr.pdf)
 * Occam’s Lasso: Parsimonious Theory-Building Needs Machine Learning (in progress)
