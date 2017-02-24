@@ -34,4 +34,4 @@ Why do some dictators that are deposed through violence go into exile or secure 
   * [Replication material](https://github.com/lukesonnet/foreign_fighters)
 * [Modeling Inter-Rebel Group Conflict with Social Network Analysis: The Case of Lebanon's Civil War](/research/snaLebanon_jcr.pdf)
 * Occam’s Lasso: Parsimonious Theory-Building Needs Machine Learning (in progress)
-* Public Choice & the Study of Autocracy
+* Public Choice & the Study of Autocracy (in progress)
