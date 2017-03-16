@@ -1,6 +1,6 @@
 ## Dissertation Papers
 
-``Elite Networks, Offshore Assets, and Constraints on Dictators' Predation: Evidence from the Panama Papers" (in progress, to be presented at MPSA 2017)
+``Elite Networks, Offshore Assets, and Constraints on Dictators' Predation: Evidence from the Panama Papers" (in progress, to be presented at MPSA 2017 and APSA 2017)
 
 Abstract: A large literature argues that autocracies can achieve high levels of economic growth if dictators can commit to not predating on elites. Extant research has focused on the role of *formal* institutions -- namely, legislatures and parties -- in constraining the dictator’s predation. Scholars argue that these institutions lower elites’ cost of monitoring the dictator, thereby making predation more observable and allowing elites to punish the dictator. I complement this literature by documenting the role of an *informal* institution, elite networks, in constraining the dictator. I argue that dense financial ties among elites serve to diffuse information on the dictator's policy, hence facilitating elite monitoring of predation—if the dictator preys on an elite's assets, those financially tied to said elite will observe the predation or experience its spillovers. In turn, elites affected -- directly or indirectly -- by the predation will coordinate and threaten to punish the dictator with capital flight. This credible threat can deter the dictator from economic predation and commit him to protecting elites' assets. Accordingly, I hypothesize that autocracies where economic elite networks are more dense experience less expropriation and enjoy stronger property rights. To test these claims, I uncover the network structure of elites' co-ownership of offshore companies -- a strong type of financial tie -- using the largest leak of such information to date, the Panama Papers. I find preliminary statistical support for my hypotheses using a panel of all post-1990 dictatorships. 
 
@@ -34,4 +34,4 @@ Why do some dictators that are deposed through violence go into exile or secure 
   * [Replication material](https://github.com/lukesonnet/foreign_fighters)
 * [Modeling Inter-Rebel Group Conflict with Social Network Analysis: The Case of Lebanon's Civil War](/research/snaLebanon_jcr.pdf)
 * Occam’s Lasso: Parsimonious Theory-Building Needs Machine Learning (in progress)
-* Public Choice & the Study of Autocracy (in progress)
+* Public Choice & the Study of Autocracy (in progress) (contribution to edited volume on James Buchanan)
