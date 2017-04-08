@@ -4,7 +4,7 @@
 
 Abstract: A large literature argues that dictatorships can achieve high levels of economic growth if dictators can commit to not expropriate elites. Extant research has focused on the role of formal institutions—legislatures and parties—in helping elites constrain dicta- tors’ predation. I complement this literature by documenting the role of an informal institution, financial networks, in constraining the dictator. I argue that dense financial ties among elites serve to diffuse private information on the economy, hence facilitat- ing elites’ monitoring—if the dictator reneges on his commitment, informed elites are able to infer and punish his defection. This credible threat deters the dictator from predation and commits him to sharing rents with elites. Accordingly, I hypothesize that dictatorships where elites’ financial network allows for greater diffusion of private information enjoy stronger property rights. To test my claims, I uncover networks of elites’ co-ownership of offshore companies—a strong type of financial tie—using the largest leak of financial information to date, the Panama Papers. A statistical analysis of all cases during 1990-2015 supports my hypothesis.
 
-![Chad vs. Botswana Network](/research/chadVSbotswana.jpg){: align=“center” height="250px" width="250px" style="margin-right: 5px"}
+![Chad vs. Botswana Network](/research/chadVSbotswana.jpg){: align=“center”}
 <center>Figure: Elite offshore network in Chad (left) vs Botswana (right)</center>
 
 <br>
