@@ -19,8 +19,6 @@ Abtract: Why do some military officers participate in coups, while others stay i
 
 Why do some dictators that are deposed through violence go into exile or secure amnesty from prosecution, while others are imprisoned or executed? Answering this question can explain why dictators from countries experiencing ongoing violence often refuse to abandon power—if they cannot secure exile or amnesty, they can delay imprisonment or execution by clinging on to a collapsing throne. I underline the importance of international relations and dyadic factors between countries in shaping dictators' fate. I argue that a dictator (from a country) more densely interconnected with other leaders (countries) can expect a better post-tenure fate. Two types of dyadic factors shape a dictator's fate after office. First, the dictator’s personal ties to other countries; namely, the number of foreign leaders that are his friends or relatives and the wealth he holds abroad. Second, ties between the dictator's country and other countries; specifically, shared culture (ethnicity, language, religion), military and diplomatic alliances, trade, and geographic distance. Ties can have demand- and/or supply-side effects. The former reflect an ousted dictator’s willingness to seek exile in a country that he is connected to. Supply-side effects capture a country’s willingness to host an ousted dictator whose country it is connected to, or to pressure that country to grant the dictator amnesty. Ties between dictators(hips) and other countries become more important in an era of expanding jurisdiction for international courts. Paradoxically, by imposing costs on member-states that protect ousted dictators, particularly the most repressive ones, international courts might make these dictators even more hesitant to give up power, thereby prolonging their repression. In such cases, ties may have a welfare-improving role: foreign leaders and countries strongly connected to an ousted dictator and his country may still find it rational to defy international courts and protect that dictator, hence incentivizing him to exit office. I find support for my argument through statistical analysis of all relevant cases since 1945.
 
-<br>
-
 ## Published/Forthcoming Articles
 * [Are Coups Good for Democracy?](/research/RAP_publication.pdf) with [Erica Frantz](http://ericafrantz.com/3001.html), [Barbara Geddes](http://www.polisci.ucla.edu/people/barbara-geddes), and [Joseph Wright](http://sites.psu.edu/wright). 2016. *Research & Politics*
   * [Online Appendix](/research/coups r&p appendix.pdf)
@@ -28,8 +26,6 @@ Why do some dictators that are deposed through violence go into exile or secure 
   * [Monkey Cage coverage](https://www.washingtonpost.com/news/monkey-cage/wp/2016/02/22/are-coups-good-for-democracy/?utm_term=.96e04d348083)
   * [Reanalysis by Miller (2016)](https://b2998732-a-62cb3a1a-s-sites.googlegroups.com/site/mkmtwo/Miller-Coups%2CDem.pdf?attachauth=ANoY7cpV-_0THofiaATU54ia_kXwAaPhN4bKKUUIRzQE6sgTr-yyFWyX316fAoFtHTnbzMe5njMmJVSEuiDcvgeHa7G3cY_pQZIizVw4fEdXH6hHUiQ5HGoT36ReDcobs23pHZ2LmRB_xvp8WYp7ZNRY4vZSk4sfXHdCbo5cBcVmOhWI84l5lG7QEMrd5fhP1KTeDza7Ifi8MrpuUxsU-G8YwxCFyiukMg%3D%3D&attredirects=0)
   * Response to Miller (2016). *Forthcoming*
-  
-<br>
 
 ## Working Papers
 * [Predicting Foreign Fighter Flows to Syria Using Machine Learning: An Introduction to Kernel Regularized Hurdle Negative Binomial](https://www.dropbox.com/s/1ny0cewhyv2o4vb/derpanopoulos_sonnet_ff.pdf?dl=0) with [Luke Sonnet](http://lukesonnet.github.io/)
