@@ -1,11 +1,17 @@
 ## Dissertation Papers
 
-``Elite Networks and Constraints on Dictators' Predation: Evidence from the Panama Papers" (email for draft; presentations: MPSA 2017, APSA 2017)
+``Elites, Financial Networks, and Constraints on Dictators: Evidence from the Panama Papers" (email for draft; presentations: MPSA 2017, APSA 2017)
 
 Abstract: A large literature argues that dictatorships can achieve high levels of economic growth if dictators can commit to not expropriate elites. Extant research has focused on the role of formal institutions—legislatures and parties—in helping elites constrain dictators’ predation. I complement this literature by documenting the role of an informal institution, financial networks, in constraining the dictator. I argue that dense financial ties among elites serve to diffuse private information on the economy, hence facilitating elites’ monitoring—if the dictator reneges on his commitment, informed elites are able to infer and punish his defection. This credible threat deters the dictator from predation and commits him to sharing rents with elites. Accordingly, I hypothesize that dictatorships where elites’ financial network allows for greater diffusion of private information enjoy stronger property rights. To test my claims, I uncover networks of elites’ co-ownership of offshore companies—a strong type of financial tie—using the largest leak of financial information to date, the Panama Papers. A statistical analysis of all cases during 1990-2015 supports my hypothesis.
 
+<<<<<<< HEAD
 ![Chad vs. Botswana Network](/research/chadVSbotswana.png){: align=“center”; height=“10px”; width=“10px"}
+=======
+<div style="text-align:center" markdown="1">
+![Chad vs. Botswana Network](/research/chadVSbotswana.png){: height="400px" width="750px"}
+>>>>>>> origin/master
 <center>Figure: Elite offshore network in Chad (left) vs Botswana (right)</center>
+</div>
 
 <br>
   
@@ -18,8 +24,6 @@ Abtract: Why do some military officers participate in coups, while others stay i
 ``Violent Leader Change, Exit Options, and Dictators' Fate: The Role of International Relations" (in progress)
 
 Why do some dictators that are deposed through violence go into exile or secure amnesty from prosecution, while others are imprisoned or executed? Answering this question can explain why dictators from countries experiencing ongoing violence often refuse to abandon power—if they cannot secure exile or amnesty, they can delay imprisonment or execution by clinging on to a collapsing throne. I underline the importance of international relations and dyadic factors between countries in shaping dictators' fate. I argue that a dictator (from a country) more densely interconnected with other leaders (countries) can expect a better post-tenure fate. Two types of dyadic factors shape a dictator's fate after office. First, the dictator’s personal ties to other countries; namely, the number of foreign leaders that are his friends or relatives and the wealth he holds abroad. Second, ties between the dictator's country and other countries; specifically, shared culture (ethnicity, language, religion), military and diplomatic alliances, trade, and geographic distance. Ties can have demand- and/or supply-side effects. The former reflect an ousted dictator’s willingness to seek exile in a country that he is connected to. Supply-side effects capture a country’s willingness to host an ousted dictator whose country it is connected to, or to pressure that country to grant the dictator amnesty. Ties between dictators(hips) and other countries become more important in an era of expanding jurisdiction for international courts. Paradoxically, by imposing costs on member-states that protect ousted dictators, particularly the most repressive ones, international courts might make these dictators even more hesitant to give up power, thereby prolonging their repression. In such cases, ties may have a welfare-improving role: foreign leaders and countries strongly connected to an ousted dictator and his country may still find it rational to defy international courts and protect that dictator, hence incentivizing him to exit office. I find support for my argument through statistical analysis of all relevant cases since 1945.
-
-<br>
 
 ## Published/Forthcoming Articles
 * [Are Coups Good for Democracy?](/research/RAP_publication.pdf) with [Erica Frantz](http://ericafrantz.com/3001.html), [Barbara Geddes](http://www.polisci.ucla.edu/people/barbara-geddes), and [Joseph Wright](http://sites.psu.edu/wright). 2016. *Research & Politics*
