@@ -2,8 +2,6 @@
 
 **Hi! I'm George Derpanopoulos** 
 
-I am a PhD candidate in Political Science and an MA candidate in Statistics at [UCLA](http://www.polisci.ucla.edu/), where I study Comparative Politics (authoritarian regimes) and Political Methodology (social networks, machine learning). 
-
-In my dissertation, "Networks and Dictatorships: Essays on Economic Predation, Coups, and Dictators’ Fate", I adopt a network approach to study three central topics in authoritarian politics: (i) economic predation by dictators on elites, (ii) military coups, and (iii) dictators' post-tenure fate. 
+I'm a PhD candidate in Political Science and an MS candidate in Statistics at UCLA, where I study Comparative Politics (authoritarian regimes, political violence) and Political Methodology (social networks, machine learning). Starting 6/2018, I'll be joining FTI Consulting's Dispute Advisory Services practice, as a Senior Consultant (LA office).
 
 Read more about my research [here](/research).
