@@ -6,7 +6,7 @@ Abstract: A large literature argues that dictatorships can achieve high levels o
 
 <div style="text-align:center" markdown="1">
 ![Chad vs. Botswana Network](/research/chadVSbotswana.png){: height="400px" width="750px"}
-<center>Figure: Elite financial network in Chad 2015 (left) vs Botswana 2015 (right)</center>
+<center>Elite financial network in Chad 2015 (left) vs Botswana 2015 (right)</center>
 </div>
 
 <br>
@@ -18,7 +18,7 @@ Abstract: Some countries have counted hundreds of their citizens fleeing to figh
 
 <div style="text-align:center" markdown="1">
 ![XX](/research/XX.pdf){: height="400px" width="750px"}
-<center>Figure: XX </center>
+<center> XX </center>
 </div>
 
 <br>
@@ -29,7 +29,7 @@ Abtract: When do rebel groups fight each other? How is conflict between rebel gr
 
 <div style="text-align:center" markdown="1">
 ![Lebanon Conflict Network](/research/lebanon_80-91.pdf){: height="400px" width="750px"}
-<center>Figure: Conflict Network in Lebanese Civil War, 1980-1991 </center>
+<center> Conflict Network in Lebanese Civil War, 1980-1991 </center>
 </div>
 
 <br> 
@@ -40,9 +40,10 @@ Abstract:  Modern Portfolio Theory (MPT) has been the canonical theoretical mode
 
 <div style="text-align:center" markdown="1">
 ![Scatterplot](/research/scatter.pdf){: height="400px" width="750px"}
-<center>Figure: Realized Portfolio Risk vs Return </center>
+<center> Realized Portfolio Risk vs Return </center>
 </div>
 
+<br> 
 
 ## Published/Forthcoming Articles
 * [Are Coups Good for Democracy?](/research/RAP_publication.pdf) with [Erica Frantz](http://ericafrantz.com/3001.html), [Barbara Geddes](http://www.polisci.ucla.edu/people/barbara-geddes), and [Joseph Wright](http://sites.psu.edu/wright). 2016. *Research & Politics*
