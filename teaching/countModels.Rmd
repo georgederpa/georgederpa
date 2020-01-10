@@ -374,6 +374,8 @@ plot(out)
 ```
 
 Indeed, our sample did not do too well with $r$. Why?
+
+The reason, as is often the case with MCMC estimation, is that our sampler hit a rough patch somewhere. If we change the sampling parameters (length of chain, thinning, etc.), the posterior will converge! I leave it up to you to work around this bottleneck.
                                   
 Resources
 ========= 
