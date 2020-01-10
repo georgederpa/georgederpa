@@ -2,6 +2,6 @@
 
 **Hi! I'm George Derpanopoulos**  
 
-I'm a Senior Consultant at FTI Consulting's Dispute Advisory Services group (Forensic and Litigation Consulting practice) in Los Angeles (Century City). Prior to joining FTI, I was a PhD candidate in Political Science and an MS candidate in Statistics at UCLA, where I conducted research on authoritarian regimes, political violence, network analysis, machine learning, and financial portfolio theory.
+I'm a Director at FTI Consulting's Dispute Advisory Services group (Forensic and Litigation Consulting practice) in Los Angeles, CA. Prior to joining FTI, I was a PhD and MS candidate at UCLA, where I conducted research on Political Economy and Statistics. This website hosts most of the research I conducted while at UCLA, as well as some of my teaching material.
 
-Read more about my research [here](/research).
+Though I have moved away from the research topics and methodologies contained in this website, feel free to reach out if you have any comments or questions. Apologies for any delays in my response, as I only check my UCLA email periodically, and work commitments prevent me from devoting too much time to research.
